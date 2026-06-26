@@ -41,7 +41,7 @@ public class Stone1 : MonoBehaviour, ITimeControlable
     {
         MC = PlayerManager.Instance.MC;
         rb = GetComponent<Rigidbody2D>();
-        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.bodyType = RigidbodyType2D.Kinematic;
         SR = GetComponent<SpriteRenderer>();
         CanReserveTime = true;
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
@@ -73,7 +73,7 @@ public class Stone1 : MonoBehaviour, ITimeControlable
         }
     }
 
-    public void DieOut(int d)
+    public void DieOut()
     {
         if (IsTimeReserving||IsBite)
         {
@@ -83,14 +83,15 @@ public class Stone1 : MonoBehaviour, ITimeControlable
         {
             StopCoroutine(BiteCorotine);
         }
-        BiteCorotine = StartCoroutine(Bite( d));
+        BiteCorotine = StartCoroutine(Bite());
     }
-    IEnumerator Bite(int d)
+    IEnumerator Bite()
     {
         IsBite = true;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         IsTimeReserving = false;
-        float BiteDirection = d;
+        float BiteDirection = MC.BiteDirection;
+        Debug.Log(BiteDirection);
         if (BiteDirection == 1)
         {
             //rb.velocity = new Vector2(0, BiteOutSpeed);
@@ -110,7 +111,6 @@ public class Stone1 : MonoBehaviour, ITimeControlable
         IsRecording = true;
         yield return new WaitForSeconds(1f);
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-        rb.bodyType = RigidbodyType2D.Dynamic;
         IsRecording = false;
         IsBite = false;
     }

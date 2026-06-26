@@ -47,23 +47,8 @@ public class BITE : MonoBehaviour
         MC.Closemouth = false;
     }
     public void Bite(float BiteDirecion) {
+        anim.Play(MC.IsGround ? "FairyAOnG" : "FairyAOffG");
         SR.enabled = true;
-        Invoke("SRDisappear", 0.5f);
-        switch (BiteDirecion)
-        {
-            case 1:
-                transform.localRotation = Quaternion.Euler(0, 0, 0);
-                break;
-            case 2:
-                transform.localRotation = Quaternion.Euler(0, 0, 270);
-                break;
-            case 3:
-                transform.localRotation = Quaternion.Euler(0, 0, 180);
-                break;
-            case 4:
-                transform.localRotation = Quaternion.Euler(0, 0, 90);
-                break;
-        }
         List<Collider> results = new List<Collider>();
         Collider2D[] colliders = Physics2D.OverlapAreaAll(PC2D.bounds.min, PC2D.bounds.max);
         List<GameObject> result = new List<GameObject>();
@@ -85,10 +70,6 @@ public class BITE : MonoBehaviour
                 }
             }
         }
-    }
-    public void SRDisappear()
-    {
-        SR.enabled = false;
     }
 }
 

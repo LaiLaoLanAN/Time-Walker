@@ -12,11 +12,11 @@ public class StoneTrigger : MonoBehaviour
         {
             foreach(Stone1 stone in Left)
             {
-                stone.DieOut(4);
+                stone.DieOut();
             }
             foreach (Stone1 stone in Right)
             {
-                stone.DieOut(2);
+                stone.DieOut();
             }
             this.enabled = false;
         }
