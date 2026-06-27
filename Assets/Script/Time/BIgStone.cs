@@ -6,6 +6,7 @@ public class BIgStone : MonoBehaviour,IDamagableE
 {
     public List<Stone1> Stones;
     private int CurrentI = 0;
+    public int NeedI;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,10 +20,17 @@ public class BIgStone : MonoBehaviour,IDamagableE
     }
     public void DieOut()
     {
-        if (CurrentI < Stones.Count)
+        if (CurrentI < NeedI)
         {
-            Stones[CurrentI].DieOut();
             CurrentI++;
         }
+        else
+        {
+            foreach (Stone1 stone in Stones)
+            {
+                stone.DieOut();
+            }
+            this.enabled = false;
     }
+}
 }
