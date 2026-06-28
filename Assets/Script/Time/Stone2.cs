@@ -10,7 +10,9 @@ public class Stone1 : MonoBehaviour, ITimeControlable
     public bool CanReserveTime { get; set; }
     private MCscript MC;
     private Rigidbody2D rb;
-    public float BiteOutSpeed = 1.0f;
+    public float BiteOutDis;
+    public AnimationCurve BiteOutCurve;
+    public float BiteOutTimeRate;
     private Coroutine BiteCorotine;
 
     public bool IsTimeReserving = false;
@@ -91,13 +93,14 @@ public class Stone1 : MonoBehaviour, ITimeControlable
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         IsTimeReserving = false;
         float BiteDirection = MC.BiteDirection;
+        float TargetXDis = 0;
         if (BiteDirection == 1)
         {
             //rb.velocity = new Vector2(0, BiteOutSpeed);
         }
         else if (BiteDirection == 2)
         {
-            rb.velocity = new Vector2(BiteOutSpeed, 0);
+            TargetXDis = BiteOutDis;
         }
         else if (BiteDirection == 3)
         {
@@ -105,12 +108,28 @@ public class Stone1 : MonoBehaviour, ITimeControlable
         }
         else if (BiteDirection == 4)
         {
-            rb.velocity = new Vector2(-BiteOutSpeed, 0);
+            TargetXDis = -BiteOutDis;
         }
+        //rb.velocity = new Vector2(TargetXDis, 0);
         IsRecording = true;
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
+        //float timer = 0f;
+        //while (timer < 0.5f)
+        //{
+        //    rb.velocity = new Vector2(TargetXDis*(1-timer*2), 0);
+        //    timer += Time.deltaTime;
+        //    yield return null;
+        //}
+        float timer = 0f;
+        float NeedTime = BiteOutDis * BiteOutTimeRate;
+        Vector2 OriginPos = transform.position;
+        while (timer < NeedTime)
+        {
+            transform.position = new Vector2(Mathf.Lerp(OriginPos.x,OriginPos.x+TargetXDis,BiteOutCurve.Evaluate(timer/NeedTime)), OriginPos.y);
+            timer += Time.deltaTime;
+            yield return null;
+        }
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-        rb.bodyType = RigidbodyType2D.Kinematic;
         IsRecording = false;
         IsBite = false;
     }
