@@ -163,6 +163,7 @@ public class Bridge2 : MonoBehaviour, ITimeControlable
 
             // ----- 桥3淡入（延迟startDelay后从alpha=0到1）-----
             float fadeInElapsed = elapsed - startDelay;
+            bridge3.GetComponent<Collider2D>().enabled = true;
             if (fadeInElapsed > 0)
             {
                 float fadeInProgress = Mathf.Clamp01(fadeInElapsed / fadeInDuration);
@@ -197,8 +198,7 @@ public class Bridge2 : MonoBehaviour, ITimeControlable
 
         // 隐藏桥1和桥2（设为不活动），桥3保留
         if (bridge1 != null) bridge1.SetActive(false);
-        gameObject.SetActive(false); // 桥2自身隐藏
-        bridge3.GetComponent<Collider2D>().enabled = true;
+        gameObject.SetActive(false); // 桥2自身隐藏 
         // 注意：桥3保持活动且完全不透明，合成完成
     }
 

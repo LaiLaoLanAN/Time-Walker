@@ -98,6 +98,13 @@ public class MCscript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (transform.position.y<-100)
+        {
+            isDead = true;              // 立即标记为死亡
+            rb.simulated = false;
+            StartCoroutine(ShowDeathUIAfterDelay(0.3f));
+            return;
+        }
         // Movespeed=OringinMoveSpeed*(1+eatscore/MaxScore/2);
         Movespeed = OringinMoveSpeed;
         Movecontroller = Input.GetAxisRaw("Horizontal");
@@ -240,7 +247,7 @@ public class MCscript : MonoBehaviour
             {
                 BiteDirection = LocalScaleLock == 1 ? 2 : 4;
             }
-            bite.Bite(BiteDirection);
+            bite.Bite();
         }                                                                                 //咬合
 
         if (Input.GetKeyUp(KeyCode.J))
@@ -261,6 +268,10 @@ public class MCscript : MonoBehaviour
         if (Movecontroller != 0)
         {
             state = Anim.run;
+        }
+        if (!IsGround)
+        {
+            state = Anim.jump;
         }
         //if(!IsGround){
         //    if(rb.velocity.y>0.3f){

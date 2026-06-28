@@ -46,8 +46,13 @@ public class BITE : MonoBehaviour
 
         MC.Closemouth = false;
     }
-    public void Bite(float BiteDirecion) {
+    public void Bite()
+    {
         anim.Play(MC.IsGround ? "FairyAOnG" : "FairyAOffG");
+    }
+
+
+    public void _Bite() {
         SR.enabled = true;
         List<Collider> results = new List<Collider>();
         Collider2D[] colliders = Physics2D.OverlapAreaAll(PC2D.bounds.min, PC2D.bounds.max);

@@ -41,7 +41,7 @@ public class Stone1 : MonoBehaviour, ITimeControlable
     {
         MC = PlayerManager.Instance.MC;
         rb = GetComponent<Rigidbody2D>();
-        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.bodyType = RigidbodyType2D.Kinematic;
         SR = GetComponent<SpriteRenderer>();
         CanReserveTime = true;
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
@@ -110,7 +110,7 @@ public class Stone1 : MonoBehaviour, ITimeControlable
         IsRecording = true;
         yield return new WaitForSeconds(1f);
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.bodyType = RigidbodyType2D.Kinematic;
         IsRecording = false;
         IsBite = false;
     }
