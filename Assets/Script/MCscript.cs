@@ -258,6 +258,10 @@ public class MCscript : MonoBehaviour
         {
             state = Anim.run;
         }
+        if (!IsGround)
+        {
+            state = Anim.jump;
+        }
         //if(!IsGround){
         //    if(rb.velocity.y>0.3f){
         //        state=Anim.jump;
