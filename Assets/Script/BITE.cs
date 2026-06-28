@@ -47,27 +47,8 @@ public class BITE : MonoBehaviour
         MC.Closemouth = false;
     }
     public void Bite(float BiteDirecion) {
-        if (MC.IsGround)
-        {
-            anim.Play("FairyAOnG");
-            anim.Play("FairyAOffG");
-        }
+        anim.Play(MC.IsGround ? "FairyAOnG" : "FairyAOffG");
         SR.enabled = true;
-        switch (BiteDirecion)
-        {
-            case 1:
-                transform.localRotation = Quaternion.Euler(0, 0, 0);
-                break;
-            case 2:
-                transform.localRotation = Quaternion.Euler(0, 0, 270);
-                break;
-            case 3:
-                transform.localRotation = Quaternion.Euler(0, 0, 180);
-                break;
-            case 4:
-                transform.localRotation = Quaternion.Euler(0, 0, 90);
-                break;
-        }
         List<Collider> results = new List<Collider>();
         Collider2D[] colliders = Physics2D.OverlapAreaAll(PC2D.bounds.min, PC2D.bounds.max);
         List<GameObject> result = new List<GameObject>();
@@ -91,3 +72,65 @@ public class BITE : MonoBehaviour
         }
     }
 }
+
+
+// public class CollisionSnapshot : MonoBehaviour
+// {
+//     public Collider targetCollider;
+//     public KeyCode triggerKey = KeyCode.Space;
+    
+//     private void Update()
+//     {
+//         if (Input.GetKeyDown(triggerKey))
+//         {
+//             // 在按下空格键的时刻检测
+//             TakeCollisionSnapshot();
+//         }
+//     }
+    
+//     public void TakeCollisionSnapshot()
+//     {
+//         Debug.Log($"--- 碰撞快照（时间: {Time.time}） ---");
+        
+//         List<Collider> collidingTriggers = GetCollidingTriggers();
+        
+//         if (collidingTriggers.Count > 0)
+//         {
+//             foreach (Collider trigger in collidingTriggers)
+//             {
+//                 Debug.Log($"检测到触发器: {trigger.name} | 位置: {trigger.transform.position}");
+                
+//                 // 获取额外信息
+//                 TriggerInfo info = trigger.GetComponent<TriggerInfo>();
+//                 if (info != null)
+//                 {
+//                     Debug.Log($"触发器类型: {info.triggerType}");
+//                 }
+//             }
+//         }
+//         else
+//         {
+//             Debug.Log("当前没有触发任何触发器");
+//         }
+//     }
+    
+//     private List<Collider> GetCollidingTriggers()
+//     {
+//         List<Collider> results = new List<Collider>();
+//         Collider[] colliders = Physics.OverlapBox(
+//             targetCollider.bounds.center,
+//             targetCollider.bounds.extents,
+//             Quaternion.identity
+//         );
+        
+//         foreach (Collider col in colliders)
+//         {
+//             if (col.isTrigger && col != targetCollider)
+//             {
+//                 results.Add(col);
+//             }
+//         }
+        
+//         return results;
+//     }
+// }
