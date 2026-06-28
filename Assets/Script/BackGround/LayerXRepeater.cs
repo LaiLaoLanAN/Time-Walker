@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class LayerXRepeater : MonoBehaviour
 {
     [Header("随机")]
-    const int RandomRepeatMaxNum = 20;
+    const int RandomRepeatMaxNum = 100;
 
     public float XRepeatOffset;
 

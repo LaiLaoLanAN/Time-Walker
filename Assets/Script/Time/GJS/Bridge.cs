@@ -7,6 +7,8 @@ public class Bridge2 : MonoBehaviour, ITimeControlable
     public bool CanReserveTime { get; set; }
     [SerializeField] private Vector3 StartPos;
     [SerializeField] private Vector3 EndPos;
+    [SerializeField] private float StartAngle;
+    [SerializeField] private float EndAngle;
     [SerializeField] public AnimationCurve Xcurve;
     [SerializeField] public AnimationCurve Ycurve;
     [SerializeField] private float CurrentTime;
@@ -44,6 +46,7 @@ public class Bridge2 : MonoBehaviour, ITimeControlable
         CanReserveTime = true;
         SR = GetComponent<SpriteRenderer>();
         transform.position = StartPos;
+        transform.eulerAngles = new Vector3(0, 0, StartAngle);
         SR.color = new Color(Darkrgb, Darkrgb, Darkrgb, 1);
 
         // 获取桥1和桥3的SpriteRenderer（若未拖入则记录错误）
@@ -76,8 +79,9 @@ public class Bridge2 : MonoBehaviour, ITimeControlable
         float progress = CurrentTime / EndTime;
         float x = Mathf.Lerp(StartPos.x, EndPos.x, Xcurve.Evaluate(progress));
         float y = Mathf.Lerp(StartPos.y, EndPos.y, Ycurve.Evaluate(progress));
+        float angle = Mathf.Lerp(StartAngle, EndAngle, Xcurve.Evaluate(progress));
         transform.position = new Vector3(x, y, transform.position.z);
-
+        transform.eulerAngles= new Vector3(0, 0, angle);
         // 到达终点 → 触发合成过渡
         if (CurrentTime >= EndTime && !transitionTriggered)
         {
@@ -194,7 +198,7 @@ public class Bridge2 : MonoBehaviour, ITimeControlable
         // 隐藏桥1和桥2（设为不活动），桥3保留
         if (bridge1 != null) bridge1.SetActive(false);
         gameObject.SetActive(false); // 桥2自身隐藏
-
+        bridge3.GetComponent<Collider2D>().enabled = true;
         // 注意：桥3保持活动且完全不透明，合成完成
     }
 
