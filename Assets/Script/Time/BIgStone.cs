@@ -23,6 +23,10 @@ public class BIgStone : MonoBehaviour,IDamagableE
         if (CurrentI < NeedI)
         {
             CurrentI++;
+            foreach (Stone1 stone in Stones)
+            {
+                stone.Shakef();
+            }
         }
         else
         {
@@ -31,6 +35,6 @@ public class BIgStone : MonoBehaviour,IDamagableE
                 stone.DieOut();
             }
             this.enabled = false;
+        }
     }
-}
 }

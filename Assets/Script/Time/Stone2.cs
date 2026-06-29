@@ -38,6 +38,11 @@ public class Stone1 : MonoBehaviour, ITimeControlable
     private bool IsLighten;
     private Vector3 velocity;
     private bool IsBite = false;
+
+    public float ShakeDis;
+    public AnimationCurve ShakeCurve;
+    public float ShakeDuration;
+    private Vector2 OriginPos;
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +58,7 @@ public class Stone1 : MonoBehaviour, ITimeControlable
         LastPos = transform.position;
         TargetPos = transform.position;
         StartCoroutine(Record());
+        OriginPos = transform.position;
     }
     // Update is called once per frame
     void Update()
@@ -73,6 +79,18 @@ public class Stone1 : MonoBehaviour, ITimeControlable
             IsTimeReserving = false;
             //rb.bodyType = RigidbodyType2D.Dynamic;
         }
+    }
+    public void Shakef()
+    {
+        if (IsTimeReserving || IsBite)
+        {
+            return;
+        }
+        if (BiteCorotine != null)
+        {
+            StopCoroutine(BiteCorotine);
+        }
+        BiteCorotine = StartCoroutine(Shake());
     }
 
     public void DieOut()
@@ -122,7 +140,6 @@ public class Stone1 : MonoBehaviour, ITimeControlable
         //}
         float timer = 0f;
         float NeedTime = BiteOutDis * BiteOutTimeRate;
-        Vector2 OriginPos = transform.position;
         while (timer < NeedTime)
         {
             transform.position = new Vector2(Mathf.Lerp(OriginPos.x,OriginPos.x+TargetXDis,BiteOutCurve.Evaluate(timer/NeedTime)), OriginPos.y);
@@ -132,6 +149,16 @@ public class Stone1 : MonoBehaviour, ITimeControlable
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         IsRecording = false;
         IsBite = false;
+    }
+    private IEnumerator Shake()
+    {
+        float timer = 0f;
+        while (timer < ShakeDuration)
+        {
+            transform.position = new Vector2(Mathf.Lerp(OriginPos.x,OriginPos.x+ShakeDis,ShakeCurve.Evaluate(timer / ShakeDuration)),OriginPos.y);
+            timer += Time.deltaTime;
+            yield return null;
+        }
     }
 
     public void ChangeCurrentTime(float deltaTime)

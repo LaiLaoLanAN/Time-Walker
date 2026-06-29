@@ -98,7 +98,7 @@ public class MCscript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y<-100)
+        if (transform.position.y<-20&&!isDead)
         {
             isDead = true;              // 立即标记为死亡
             rb.simulated = false;
