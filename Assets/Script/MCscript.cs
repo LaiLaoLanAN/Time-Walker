@@ -61,6 +61,7 @@ public class MCscript : MonoBehaviour
 
     public float ScaleRate = 1;
     public bool IsInPlatform = false;
+    private bool IsInBud;
     // 新增字段
     private Transform currentPlatform;
     private Vector3 PlatformLastPos;
@@ -116,6 +117,7 @@ public class MCscript : MonoBehaviour
         Xspeed = rb.velocity.x;
         Xdirection = Math.Sign(Xspeed);
         IsGround = RF.IsGround || LF.IsGround;
+        IsInBud = RF.IsInBud || LF.IsInBud;
 
 
         if (Math.Abs(Xspeed) <= Movespeed + 0.3f)
@@ -358,9 +360,13 @@ public class MCscript : MonoBehaviour
 
     private void Jump()
     {
-        if (JumpNum > JumpMaxNum || !IsGround)
+        if ((!IsGround&&!IsInBud))
         {
             return;
+        }
+        if (IsInBud)
+        {
+            hitEffectController.TriggerHitEffect(2);
         }
         GenerateShade();
         //rb.velocity = new Vector2(Xspeed, Jumpspeed * (((JumpMaxNum - JumpNum) * (JumpMaxNum - JumpNum)) / (JumpMaxNum * JumpMaxNum)));

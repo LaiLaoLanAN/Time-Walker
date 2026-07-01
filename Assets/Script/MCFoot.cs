@@ -6,9 +6,11 @@ using UnityEngine;
 public class MCFoot : MonoBehaviour
 {
     public bool IsGround;
+    public bool IsInBud;
     public Collider2D PlatForm;
     [SerializeField]private float isGroundCheck;
     public LayerMask layerMask;
+    public LayerMask BudMask;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +21,7 @@ public class MCFoot : MonoBehaviour
     void Update()
     {
         IsGround = Physics2D.Raycast(transform.position, Vector2.down, isGroundCheck, layerMask);
+        IsInBud = Physics2D.Raycast(transform.position, Vector2.down, isGroundCheck, BudMask);
         RaycastHit2D hit = Physics2D.Raycast(transform.position,Vector2.down,isGroundCheck,layerMask);
         if (hit.collider == null)
         {

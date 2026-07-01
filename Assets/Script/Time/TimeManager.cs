@@ -12,6 +12,7 @@ public class TimeManager : MonoBehaviour
     private RaycastHit2D PressedMouseHit;
     public bool IsTimeReversing;
     public float MPConsumeRate;
+    public HitEffectController MChiteffect;
     public static TimeManager Instance { get; private set; }
     private void Awake()
     {
@@ -22,7 +23,6 @@ public class TimeManager : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(this.gameObject);
         }
 
     }
@@ -52,6 +52,10 @@ public class TimeManager : MonoBehaviour
                     if (timeControlable != null && timeControlable.CanReserveTime && PlayerManager.Instance.PlayerMP > 0)
                     {
                         timeControlable.ChangeCurrentTime(-Time.deltaTime);
+                        if (!IsTimeReversing)
+                        {
+                            MChiteffect.TriggerHitEffect(3);
+                        }
                         IsTimeReversing = true;
                         PlayerManager.Instance.PlayerMP = PlayerManager.Instance.PlayerMP - Time.deltaTime * MPConsumeRate;
                     }
@@ -62,6 +66,10 @@ public class TimeManager : MonoBehaviour
                     if (timeControlable != null && timeControlable.CanReserveTime && PlayerManager.Instance.PlayerMP > 0)
                     {
                         timeControlable.ChangeCurrentTime(Time.deltaTime);
+                        if (!IsTimeReversing)
+                        {
+                            MChiteffect.TriggerHitEffect(3);
+                        }
                         IsTimeReversing = true;
                         PlayerManager.Instance.PlayerMP = PlayerManager.Instance.PlayerMP - Time.deltaTime * MPConsumeRate;
                     }

@@ -154,7 +154,7 @@ MonoBehaviour:
   LightTime: 0.3
   Darkrgb: 0.8
   Lightrbg: 1
-  ShakeDis: 1
+  ShakeDis: 0.3
   ShakeCurve:
     serializedVersion: 2
     m_Curve:
@@ -188,7 +188,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  ShakeDuration: 0.5
+  ShakeDuration: 0.1
 --- !u!61 &4018449356516379820
 BoxCollider2D:
   m_ObjectHideFlags: 0

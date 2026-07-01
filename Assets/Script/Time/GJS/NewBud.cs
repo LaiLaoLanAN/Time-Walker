@@ -17,7 +17,7 @@ public class NewBud : MonoBehaviour, ITimeControlable
     private float currentTime;
 
     private List<SporeInstance> sporeInstances = new List<SporeInstance>();
-
+    public ParticleSystem part;
     private class SporeInstance
     {
         public GameObject gameObject;
@@ -41,7 +41,10 @@ public class NewBud : MonoBehaviour, ITimeControlable
             sporeInstances.Add(instance);
         }
     }
-
+    private void Start()
+    {
+        part.Stop();
+    }
     #region й╣ож ITimeControlable
     public void ChangeCurrentTime(float deltaTime)
     {
@@ -87,8 +90,13 @@ public class NewBud : MonoBehaviour, ITimeControlable
                 SetSporeAlpha(spore, 0f);
             }
         }
+        part.Play();
+        Invoke("StopPart",3f);
     }
-
+    private void StopPart()
+    {
+        part.Stop();
+    }
     private void SetSporeAlpha(SporeInstance spore, float alpha)
     {
         if (spore.renderer != null)

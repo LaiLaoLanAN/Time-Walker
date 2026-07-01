@@ -59,10 +59,10 @@ public class PlayerManager : MonoBehaviour
 
     void Awake()
     {
+        Screen.SetResolution(2560,1440, false);
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
